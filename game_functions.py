@@ -7,6 +7,7 @@ from buttons import Buttons
 from letters_guessed import Lettersguessed
 from word_guess import Wordguess
 from game_buttons import Playbutton
+from announcements import Announcement
 
 white=(255,255,255)
 
@@ -28,7 +29,8 @@ def check_events(buttons,guesses,game_settings,play_button):
 						guesses.append(letter)
 						if letter not in game_settings.word:
 							game_settings.tries_remaining-=1
-							print(game_settings.tries_remaining)
+							if game_settings.tries_remaining==0:
+								game_settings.word_guess=game_settings.word
 			check_play_button(play_button,mouse_x,mouse_y,game_settings)
 
 #create play button
@@ -56,6 +58,10 @@ def update_screen(screen,buttons,guesses,game_settings,play_button):
 		show_letters(screen,guesses)
 		show_word(screen,guesses,game_settings)
 		hang(screen,game_settings)
+		if game_settings.tries_remaining==0:
+			create_announcement(screen,'Try Again!',(255,0,0))
+		if game_settings.word==game_settings.word_guess and game_settings.tries_remaining!=0:
+			create_announcement(screen,'Yaay!',(0,255,0))
 	if game_settings.game_active==False:
 		create_play(play_button)
 
@@ -129,7 +135,10 @@ def hang(screen,game_settings):
 	if tries<1:
 		pygame.draw.line(screen,white,(675,500),(750,530),10)
 
-
+#create announcements
+def create_announcement(screen,announcement,text_colour):
+	announcement=Announcement(screen,announcement,text_colour)
+	announcement.draw_announcement()
 
 
 
