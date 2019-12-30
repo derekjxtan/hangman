@@ -43,7 +43,7 @@ def run_game():
 		pygame.display.flip()
 		
 		if gf.end_game(game_settings)==True:
-			sleep(1)
+			sleep(2)
 		gf.new_game(guesses,game_settings)		
 		
 run_game()
